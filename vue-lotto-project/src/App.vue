@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <!-- <img src="./assets/logo.png"> -->
     <router-view/>
   </div>
 </template>
@@ -11,6 +11,8 @@ export default {
 };
 </script>
 
+<style src="./assets/commons.css"></style>
+<style src="./assets/lotto-commons.css"></style>
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

@@ -58,6 +58,28 @@
                 </span>
             </p>
         </div>
+
+        <hr class="mt-50"/>
+
+        <div style="transform: scale( .7 );" >
+            <strong>선택된 번호</strong>
+            <p v-if="winNumbers.length === 0">
+              선택된 번호가 없습니다.
+            </p>
+            <p v-else>
+                <span v-for="(item, i) in buff" v-bind:key="i" class="ball_645 lrg ball1"
+                    :class="{
+                      ball1: Math.floor(item / 10) +1 == 1,
+                      ball2: Math.floor(item / 10) +1 == 2,
+                      ball3: Math.floor(item / 10) +1 == 3,
+                      ball4: Math.floor(item / 10) +1 == 4,
+                      ball5: Math.floor(item / 10) +1 == 5,
+                    }"
+                >
+                  {{ item }}
+                </span>
+            </p>
+        </div>
     </div>
 
 </template>
@@ -93,6 +115,7 @@ export default {
         [7, 18, 23, 26, 45], /* 최근 3번 나옴 */
         [21], /* 최근 4번 나옴 */
       ],
+      buff: [],
     };
   },
   created() {
@@ -120,6 +143,7 @@ export default {
         }
         // console.log(`i = {{i}}`, i)
       }
+      this.buff = buff.slice(0)
 
       // this.winNumbers = buff.slice(0)
       this.winNumbers = getRandomSubarray(buff, 6).sort(function (a, b) { return a - b })

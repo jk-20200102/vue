@@ -33,11 +33,11 @@
 
         <hr class="mt-50"/>
 
-        <div class="num win" v-for="(seed, i) in seeds" :key="i">
+        <div style="transform: scale( .7 );" class="num win" v-for="(seed, i) in seeds" :key="i">
             <p>
               가중치:
               <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                  v-model="weights[i]" :min="1" :max="10" :step="1">
+                  v-model="weights[i]" :min="0" :max="seed.length" :step="1">
               </vue-numeric-input>
               <!-- <input v-model.number="weights[i]"
                   type="input" style="width: 40px;" class="mr-10 ta-c fw-b" /> -->
@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       winNumbers: [],
-      weights: [ 4, 1, 1, 2, 1, ],
+      weights: [ 10, 2, 1, 5, 10, ],
       seeds: [
         [1, 3, 4, 9, 10, 27, 31, 32, 40, 41, 44], /* 한 번도 안 나옴 */
         [11, 13, 14, 15, 17, 24, 25, 29, 33, 34, 42, 43],  /* 최근 1회 나옴 */

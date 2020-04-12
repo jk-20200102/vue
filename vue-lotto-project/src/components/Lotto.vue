@@ -10,8 +10,7 @@
               <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
                   v-on:change="doInit"> -->
               <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                  v-model.number="latelySize" :min="5" :max="23" :step="1"
-                  v-on:change="doInit">
+                  v-model.number="latelySize" :min="5" :max="23" :step="1">
               </vue-numeric-input>
               <strong>회차 기준</strong>
             </p>
@@ -56,7 +55,7 @@
 
     </div>
     </li>
-    <li class="list-group-item">
+    <li class="list-group-item list-group-item-success">
     <div class="nums">
         <div>
             <strong>선택된 번호</strong>
@@ -131,14 +130,18 @@ import VueNumericInput from 'vue-numeric-input'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 function getRandomSubarray(arr, size) {
-    var shuffled = arr.slice(0), i = arr.length, temp, index;
-    while (i--) {
-        index = Math.floor((i + 1) * Math.random());
-        temp = shuffled[index];
-        shuffled[index] = shuffled[i];
-        shuffled[i] = temp;
-    }
-    return shuffled.slice(0, size);
+  // console.log('arr', arr)
+  var shuffled = arr.slice(0)
+  var i = arr.length
+  var temp, index
+
+  while (i--) {
+    index = Math.floor((i + 1) * Math.random());
+    temp = shuffled[index];
+    shuffled[index] = shuffled[i];
+    shuffled[i] = temp;
+  }
+  return shuffled.slice(0, size);
 }
 
 export default {
@@ -148,11 +151,11 @@ export default {
   },
   data() {
     return {
-      latelySize: 20,
+      latelySize: 10,
       winNumbers: [],
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
-      // weights: [6,1,4,3,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+      // weights: [6,1,4,3,0,],
       weights: Array(45).fill(0).map((v, i) => i === 0 ? 1 : 0),    // (45) [0,0,...,0]
       seeds: [
         /* 0 */ [1,9,10,25,41,44],
@@ -170,6 +173,7 @@ export default {
   },
   mounted() {
     console.log('--- mounted');
+    this.weights = this.recommandWeights
     this.doInit()
 
     $(function () {
@@ -189,6 +193,7 @@ export default {
     }),
 
     doInit() {
+      console.log('--- doInit')
       this.analysis(this.latelySize)
       this.seeds = this.getCountList
     },
@@ -231,6 +236,23 @@ export default {
       getWinNumbers: 'getWinNumbers',
       getCountList: 'getCountList',
     }),
-  }
+    recommandWeights() {
+      // weights: [4,0,1,2,0,]
+      // weights: [2,1,3,1,0,]
+      var recommands = [2,2,2,1,0,]
+      var { weights } = this
+      for (var i = 0; i < recommands.length; i++) {
+        weights[i] = recommands[i]
+      }
+
+      return weights
+    },
+  },
+  watch: {
+    latelySize: function(newVal, oldVal) {
+      console.log('newVal, oldVal', newVal, oldVal)
+      this.doInit()
+    },
+  },
 };
 </script>

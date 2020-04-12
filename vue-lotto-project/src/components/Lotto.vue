@@ -53,8 +53,9 @@
             <p v-if="selectedNumbers.length === 0">
               선택된 번호가 없습니다.
             </p>
-            <p style="transform: scale( .6 );" v-else>
+            <p v-else>
                 <span v-for="(num, i) in selectedNumbers" v-bind:key="i" class="ball_645 lrg ball1"
+                    style="transform: scale( .6 );"
                     :class="{
                       ball1: getBallType(num) == 1,
                       ball2: getBallType(num) == 2,
@@ -85,8 +86,9 @@
                   v-model="weights[i]" :min="0" :max="seed.length" :step="1">
               </vue-numeric-input>
             </p>
-            <p style="transform: scale( .6 );">
+            <p>
                 <span v-for="(num, j) in seed" v-bind:key="j" class="ball_645 lrg"
+                 style="transform: scale( .6 );"
                     :class="{
                       ball0: weights[i] === 0,
                       ball1: weights[i] > 0 && getBallType(num) == 1,
@@ -111,6 +113,7 @@
 <script>
 /* eslint-disable */
 import VueNumericInput from 'vue-numeric-input'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 function getRandomSubarray(arr, size) {
     var shuffled = arr.slice(0), i = arr.length, temp, index;
@@ -150,6 +153,8 @@ export default {
   },
   mounted() {
     console.log('--- mounted');
+    console.log(this.getWinNumbers.length)
+    this.analysis(10)
 
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
@@ -159,6 +164,13 @@ export default {
     console.log('--- updated');
   },
   methods: {
+    ...mapMutations({
+
+    }),
+    ...mapActions({
+      analysis: 'analysis'
+    }),
+
     doRecommand() {
       console.log('--- doRecommand')
       // this.getSelectedNumbers()
@@ -171,7 +183,7 @@ export default {
     },
     getSelectedNumbers() {
       console.log('--- getSelectedNumbers')
-      console.log(this.weights)
+      // console.log(this.weights)
 
       var buff = []
       for (var i in this.weights) {
@@ -180,7 +192,7 @@ export default {
           var sample = getRandomSubarray(this.seeds[i], weight)
           // console.log('sample', sample)
           buff = buff.concat(sample).sort(function (a, b) { return a - b })
-          console.log('buff', buff)
+          // console.log('buff', buff)
         }
         // console.log(`i = {{i}}`, i)
       }
@@ -192,5 +204,10 @@ export default {
       return Math.floor((number - 1/* 1~10 */) / 10) + 1
     },
   },
+  computed: {
+    ...mapGetters({
+      getWinNumbers: 'getWinNumbers'
+    }),
+  }
 };
 </script>

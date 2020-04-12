@@ -35,4 +35,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # Vue Numeric Input
 # https://www.npmjs.com/package/vue-numeric-input
 npm install vue-numeric-input --save
+
+# Vuex
+npm install vuex --save
+
 ```

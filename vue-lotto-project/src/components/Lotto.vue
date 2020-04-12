@@ -47,13 +47,14 @@
               <strong v-else>최근 10회 동안 {{ i }}회 나온 숫자</strong>
             </p>
             <p style="transform: scale( .6 );">
-                <span v-for="(num, j) in seed" v-bind:key="j" class="ball_645 lrg ball1"
+                <span v-for="(num, j) in seed" v-bind:key="j" class="ball_645 lrg"
                     :class="{
-                      ball1: getBallType(num) == 1,
-                      ball2: getBallType(num) == 2,
-                      ball3: getBallType(num) == 3,
-                      ball4: getBallType(num) == 4,
-                      ball5: getBallType(num) == 5,
+                      ball0: weights[i] === 0,
+                      ball1: weights[i] > 0 && getBallType(num) == 1,
+                      ball2: weights[i] > 0 && getBallType(num) == 2,
+                      ball3: weights[i] > 0 && getBallType(num) == 3,
+                      ball4: weights[i] > 0 && getBallType(num) == 4,
+                      ball5: weights[i] > 0 && getBallType(num) == 5,
                     }"
                 >
                   {{ num }}

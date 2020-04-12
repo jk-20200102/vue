@@ -3,7 +3,9 @@
     <div class="nums">
         <div class="num win">
             <p>
-              <button v-on:click="doRecommand">
+              <button type="button" class="btn btn-primary"
+                  v-on:click="doRecommand"
+              >
                 추천받기
               </button>
             </p>
@@ -13,16 +15,16 @@
               추천 번호가 없습니다.
             </p>
             <p v-else>
-                <span v-for="(item, i) in winNumbers" v-bind:key="i" class="ball_645 lrg ball1"
+                <span v-for="(num, i) in winNumbers" v-bind:key="i" class="ball_645 lrg ball1"
                     :class="{
-                      ball1: Math.floor(item / 10) +1 == 1,
-                      ball2: Math.floor(item / 10) +1 == 2,
-                      ball3: Math.floor(item / 10) +1 == 3,
-                      ball4: Math.floor(item / 10) +1 == 4,
-                      ball5: Math.floor(item / 10) +1 == 5,
+                      ball1: getBallType(num) == 1,
+                      ball2: getBallType(num) == 2,
+                      ball3: getBallType(num) == 3,
+                      ball4: getBallType(num) == 4,
+                      ball5: getBallType(num) == 5,
                     }"
                 >
-                  {{ item }}
+                  {{ num }}
                 </span>
             </p>
         </div>
@@ -33,7 +35,7 @@
 
         <hr class="mt-50"/>
 
-        <div style="transform: scale( .7 );" class="num win" v-for="(seed, i) in seeds" :key="i">
+        <div class="num win" v-for="(seed, i) in seeds" :key="i">
             <p>
               가중치:
               <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
@@ -44,39 +46,39 @@
               <strong v-if="i === 0">최근 10회 동안 한 번도 안 나온 숫자</strong>
               <strong v-else>최근 10회 동안 {{ i }}회 나온 숫자</strong>
             </p>
-            <p>
-                <span v-for="(item, j) in seed" v-bind:key="j" class="ball_645 lrg ball1"
+            <p style="transform: scale( .6 );">
+                <span v-for="(num, j) in seed" v-bind:key="j" class="ball_645 lrg ball1"
                     :class="{
-                      ball1: Math.floor(item / 10) +1 == 1,
-                      ball2: Math.floor(item / 10) +1 == 2,
-                      ball3: Math.floor(item / 10) +1 == 3,
-                      ball4: Math.floor(item / 10) +1 == 4,
-                      ball5: Math.floor(item / 10) +1 == 5,
+                      ball1: getBallType(num) == 1,
+                      ball2: getBallType(num) == 2,
+                      ball3: getBallType(num) == 3,
+                      ball4: getBallType(num) == 4,
+                      ball5: getBallType(num) == 5,
                     }"
                 >
-                  {{ item }}
+                  {{ num }}
                 </span>
             </p>
         </div>
 
-        <hr class="mt-50"/>
+        <hr class=""/>
 
-        <div style="transform: scale( .7 );" >
+        <div>
             <strong>선택된 번호</strong>
             <p v-if="winNumbers.length === 0">
               선택된 번호가 없습니다.
             </p>
-            <p v-else>
-                <span v-for="(item, i) in buff" v-bind:key="i" class="ball_645 lrg ball1"
+            <p style="transform: scale( .6 );" v-else>
+                <span v-for="(num, i) in buff" v-bind:key="i" class="ball_645 lrg ball1"
                     :class="{
-                      ball1: Math.floor(item / 10) +1 == 1,
-                      ball2: Math.floor(item / 10) +1 == 2,
-                      ball3: Math.floor(item / 10) +1 == 3,
-                      ball4: Math.floor(item / 10) +1 == 4,
-                      ball5: Math.floor(item / 10) +1 == 5,
+                      ball1: getBallType(num) == 1,
+                      ball2: getBallType(num) == 2,
+                      ball3: getBallType(num) == 3,
+                      ball4: getBallType(num) == 4,
+                      ball5: getBallType(num) == 5,
                     }"
                 >
-                  {{ item }}
+                  {{ num }}
                 </span>
             </p>
         </div>
@@ -109,10 +111,10 @@ export default {
       winNumbers: [],
       weights: [ 10, 2, 1, 5, 10, ],
       seeds: [
-        [1, 3, 4, 9, 10, 27, 31, 32, 40, 41, 44], /* 한 번도 안 나옴 */
-        [11, 13, 14, 15, 17, 24, 25, 29, 33, 34, 42, 43],  /* 최근 1회 나옴 */
-        [2, 5, 6, 8, 12, 16, 19, 20, 22, 28, 30, 35, 36, 37, 38, 39],  /* 최근 2회 나옴 */
-        [7, 18, 23, 26, 45], /* 최근 3번 나옴 */
+        [1,9,10,25,31,32,41,44], /* 한 번도 안 나옴 */
+        [3,4,5,11,12,13,14,15,17,24,27,29,33,34,40,42,43],  /* 최근 1회 나옴 */
+        [2,6,8,19,22,23,26,28,30,35,36,37,38,39,45],  /* 최근 2회 나옴 */
+        [7,16,18,20], /* 최근 3번 나옴 */
         [21], /* 최근 4번 나옴 */
       ],
       buff: [],
@@ -148,6 +150,9 @@ export default {
       // this.winNumbers = buff.slice(0)
       this.winNumbers = getRandomSubarray(buff, 6).sort(function (a, b) { return a - b })
     },
-  }
+    getBallType(number) {
+      return Math.floor((number - 1/* 1~10 */) / 10) + 1
+    },
+  },
 };
 </script>

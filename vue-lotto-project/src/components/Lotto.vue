@@ -1,16 +1,22 @@
 <template>
 
+  <div>
+    <ul class="list-group">
+    <li class="list-group-item list-group-item-success">
     <div class="nums">
         <div class="num win">
-            <p>
-              <button type="button" class="btn btn-primary"
-                  v-on:click="doRecommand"
-              >
-                추천받기
-              </button>
-            </p>
-
             <strong>추천번호</strong>
+            <button type="button" class="btn btn-link"
+                v-on:click="doRecommand"
+                data-toggle="tooltip" data-placement="top" title="선택된 번호에서 추천번호를 받습니다."
+            >
+              추천받기
+            </button>
+            <input type="checkbox" id="isEveryChange" v-model="isEveryChange">
+            <label for="isEveryChange">
+              매번새로선택
+            </label>
+
             <p v-if="winNumbers.length === 0">
               추천 번호가 없습니다.
             </p>
@@ -33,18 +39,51 @@
             <p><span class="ball_645 lrg ball2">20</span></p>
         </div> -->
 
-        <hr class="mt-50"/>
+    </div>
+    </li>
+    <li class="list-group-item">
+    <div class="nums">
+        <div>
+            <strong>선택된 번호</strong>
+            <button type="button" class="btn btn-link"
+                v-on:click="getSelectedNumbers"
+            >
+              가중치로 선택된 번호받기
+            </button>
+            <p v-if="selectedNumbers.length === 0">
+              선택된 번호가 없습니다.
+            </p>
+            <p style="transform: scale( .6 );" v-else>
+                <span v-for="(num, i) in selectedNumbers" v-bind:key="i" class="ball_645 lrg ball1"
+                    :class="{
+                      ball1: getBallType(num) == 1,
+                      ball2: getBallType(num) == 2,
+                      ball3: getBallType(num) == 3,
+                      ball4: getBallType(num) == 4,
+                      ball5: getBallType(num) == 5,
+                    }"
+                >
+                  {{ num }}
+                </span>
+            </p>
+        </div>
 
-        <div class="num win" v-for="(seed, i) in seeds" :key="i">
+    </div>
+    </li>
+
+    <li class="list-group-item" v-for="(seed, i) in seeds" :key="i">
+    <div class="nums">
+
+        <div class="num win">
+            <p>
+              <strong v-if="i === 0">최근 10회 동안 한 번도 안 나온 숫자</strong>
+              <strong v-else>최근 10회 동안 {{ i }}회 나온 숫자</strong>
+            </p>
             <p>
               가중치:
               <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
                   v-model="weights[i]" :min="0" :max="seed.length" :step="1">
               </vue-numeric-input>
-              <!-- <input v-model.number="weights[i]"
-                  type="input" style="width: 40px;" class="mr-10 ta-c fw-b" /> -->
-              <strong v-if="i === 0">최근 10회 동안 한 번도 안 나온 숫자</strong>
-              <strong v-else>최근 10회 동안 {{ i }}회 나온 숫자</strong>
             </p>
             <p style="transform: scale( .6 );">
                 <span v-for="(num, j) in seed" v-bind:key="j" class="ball_645 lrg"
@@ -62,28 +101,10 @@
             </p>
         </div>
 
-        <hr class=""/>
-
-        <div>
-            <strong>선택된 번호</strong>
-            <p v-if="winNumbers.length === 0">
-              선택된 번호가 없습니다.
-            </p>
-            <p style="transform: scale( .6 );" v-else>
-                <span v-for="(num, i) in buff" v-bind:key="i" class="ball_645 lrg ball1"
-                    :class="{
-                      ball1: getBallType(num) == 1,
-                      ball2: getBallType(num) == 2,
-                      ball3: getBallType(num) == 3,
-                      ball4: getBallType(num) == 4,
-                      ball5: getBallType(num) == 5,
-                    }"
-                >
-                  {{ num }}
-                </span>
-            </p>
-        </div>
     </div>
+    </li>
+    </ul>
+  </div>
 
 </template>
 
@@ -110,15 +131,18 @@ export default {
   data() {
     return {
       winNumbers: [],
-      weights: [ 10, 2, 1, 5, 10, ],
+      // weights: [4,0,1,2,0,],
+      // weights: [2,1,3,1,0,],
+      weights: [6,1,4,3,0,],
       seeds: [
-        [1,9,10,25,31,32,41,44], /* 한 번도 안 나옴 */
-        [3,4,5,11,12,13,14,15,17,24,27,29,33,34,40,42,43],  /* 최근 1회 나옴 */
-        [2,6,8,19,22,23,26,28,30,35,36,37,38,39,45],  /* 최근 2회 나옴 */
-        [7,16,18,20], /* 최근 3번 나옴 */
-        [21], /* 최근 4번 나옴 */
+        /* 0 */ [1,9,10,25,41,44],
+        /* 1 */ [3,4,11,12,13,15,17,24,27,29,31,32,33,34,40,42,43],
+        /* 2 */ [5,6,8,14,19,22,23,26,30,35,36,37,38,39,45],
+        /* 3 */ [2,7,16,18,28],
+        /* 4 */ [20,21],
       ],
-      buff: [],
+      selectedNumbers: [],
+      isEveryChange: true,
     };
   },
   created() {
@@ -127,6 +151,9 @@ export default {
   mounted() {
     console.log('--- mounted');
 
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   },
   updated() {
     console.log('--- updated');
@@ -134,7 +161,18 @@ export default {
   methods: {
     doRecommand() {
       console.log('--- doRecommand')
+      // this.getSelectedNumbers()
+      var { selectedNumbers } = this
+      if (this.isEveryChange || !selectedNumbers || selectedNumbers.length === 0) {
+        selectedNumbers = this.getSelectedNumbers()
+      }
+      // this.winNumbers = buff.slice(0)
+      this.winNumbers = getRandomSubarray(selectedNumbers, 6).sort(function (a, b) { return a - b })
+    },
+    getSelectedNumbers() {
+      console.log('--- getSelectedNumbers')
       console.log(this.weights)
+
       var buff = []
       for (var i in this.weights) {
         var weight = this.weights[i]
@@ -146,10 +184,9 @@ export default {
         }
         // console.log(`i = {{i}}`, i)
       }
-      this.buff = buff.slice(0)
+      this.selectedNumbers = buff.slice(0)
 
-      // this.winNumbers = buff.slice(0)
-      this.winNumbers = getRandomSubarray(buff, 6).sort(function (a, b) { return a - b })
+      return this.selectedNumbers
     },
     getBallType(number) {
       return Math.floor((number - 1/* 1~10 */) / 10) + 1

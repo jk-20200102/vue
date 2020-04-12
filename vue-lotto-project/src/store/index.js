@@ -11,12 +11,19 @@ export const store = new Vuex.Store({
         modWinNumbers,
     },
     state: {
+        countList: [],
         min: 0,
         max: 0,
     },
     getters: {
+        getWinSize(state) {
+            return state.modWinNumbers.winNumbers.length
+        },
         getWinNumbers(state) {
             return state.modWinNumbers.winNumbers
+        },
+        getCountList(state) {
+            return state.countList
         },
     },
     mutations: {
@@ -66,6 +73,7 @@ export const store = new Vuex.Store({
                     return nums
                 },
             }
+
             var { winNumbers } = state.modWinNumbers
             var /* 회차 */ i = 1
             for (var num7 of winNumbers) {
@@ -79,6 +87,17 @@ export const store = new Vuex.Store({
             }
             console.log('number count', numCounter.count45)
             console.log('analysis num', numCounter.getNums())
+
+            var countList = []
+            for (var i in numCounter.count45) {
+                var count = numCounter.count45[i]
+                if (!countList[count]) {
+                    countList[count] = []
+                }
+                countList[count].push(Number(i) + 1)
+            }
+            console.log('countList', countList)
+            state.countList = countList
         }
     },
     actions: {

@@ -5,10 +5,25 @@
     <li class="list-group-item list-group-item-success">
     <div class="nums">
         <div class="num win">
+            <p>
+              <strong>({{ getWinSize }}) 최근</strong>
+              <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
+                  v-on:change="doInit"> -->
+              <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
+                  v-model.number="latelySize" :min="5" :max="23" :step="1"
+                  v-on:change="doInit">
+              </vue-numeric-input>
+              <strong>회차 기준</strong>
+            </p>
+
             <strong>추천번호</strong>
+            <!-- <button type="button" class="btn btn-link"
+                v-on:click="doRecommand"
+                data-container="body" data-toggle="popover" data-placement="bottom"
+                data-content="선택된 번호에서 추천번호를 받습니다."
+            > -->
             <button type="button" class="btn btn-link"
                 v-on:click="doRecommand"
-                data-toggle="tooltip" data-placement="top" title="선택된 번호에서 추천번호를 받습니다."
             >
               추천받기
             </button>
@@ -77,8 +92,8 @@
 
         <div class="num win">
             <p>
-              <strong v-if="i === 0">최근 10회 동안 한 번도 안 나온 숫자</strong>
-              <strong v-else>최근 10회 동안 {{ i }}회 나온 숫자</strong>
+              <strong v-if="i === 0">최근 {{ latelySize }}회 동안 한 번도 안 나온 숫자</strong>
+              <strong v-else>최근 {{ latelySize }}회 동안 {{ i }}회 나온 숫자</strong>
             </p>
             <p>
               가중치:
@@ -133,10 +148,12 @@ export default {
   },
   data() {
     return {
+      latelySize: 20,
       winNumbers: [],
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
-      weights: [6,1,4,3,0,],
+      // weights: [6,1,4,3,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+      weights: Array(45).fill(0).map((v, i) => i === 0 ? 1 : 0),    // (45) [0,0,...,0]
       seeds: [
         /* 0 */ [1,9,10,25,41,44],
         /* 1 */ [3,4,11,12,13,15,17,24,27,29,31,32,33,34,40,42,43],
@@ -153,11 +170,11 @@ export default {
   },
   mounted() {
     console.log('--- mounted');
-    console.log(this.getWinNumbers.length)
-    this.analysis(10)
+    this.doInit()
 
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
+      $('[data-toggle="popover"]').popover()
     })
   },
   updated() {
@@ -171,6 +188,10 @@ export default {
       analysis: 'analysis'
     }),
 
+    doInit() {
+      this.analysis(this.latelySize)
+      this.seeds = this.getCountList
+    },
     doRecommand() {
       console.log('--- doRecommand')
       // this.getSelectedNumbers()
@@ -206,7 +227,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getWinNumbers: 'getWinNumbers'
+      getWinSize: 'getWinSize',
+      getWinNumbers: 'getWinNumbers',
+      getCountList: 'getCountList',
     }),
   }
 };

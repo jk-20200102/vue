@@ -86,7 +86,9 @@
     </div>
     </li>
 
-    <li class="list-group-item" v-for="(seed, i) in seeds" :key="i">
+    <li class="list-group-item"
+        v-for="(seed, i) in seeds" :key="i"
+    >
     <div class="nums">
 
         <div class="num win">
@@ -181,6 +183,12 @@ export default {
   },
   created() {
     console.log('--- created');
+    // console.log('--- ', this.$route.params)
+    const { size } = this.$route.params
+    console.log('size', size)
+    if (size) {
+      this.latelySize = Number(size)
+    }
   },
   mounted() {
     console.log('--- mounted');
@@ -257,6 +265,7 @@ export default {
         getRandomValue(1, 3),
         getRandomValue(1, 2),
         getRandomValue(0, 0),
+        0,0,0,0,0,
       ]
 
       // 최소 선택개수 미만일 때, 가중치를 조정
@@ -267,8 +276,11 @@ export default {
       var loop = minCount - sum
       while (loop --) {
         var index = getRandomValue(0, recommands.length)
+        // console.log(recommands[index])
         recommands[index] += 1
-        console.log('[', loop, '] ', index, 'increased!!'
+        // console.log(recommands[index])
+        console.log('[', loop, '] ', 'index', index, 'increased!!'
+            , recommands[index], 'sum:'
             , recommands.reduce((accumulator, x) => accumulator + x))
       }
       // for (var i in recommands) {

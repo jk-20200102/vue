@@ -141,7 +141,18 @@ function getRandomSubarray(arr, size) {
     shuffled[index] = shuffled[i];
     shuffled[i] = temp;
   }
+
   return shuffled.slice(0, size);
+}
+
+/**
+ * from, to 사이의 난수를 반환
+ */
+function getRandomValue(from, to) {
+
+  if (from === to) return from
+
+  return Math.floor((to + 1 - from) * Math.random()) + from
 }
 
 export default {
@@ -239,7 +250,33 @@ export default {
     recommandWeights() {
       // weights: [4,0,1,2,0,]
       // weights: [2,1,3,1,0,]
-      var recommands = [2,2,2,1,0,]
+      var recommands = [
+        // 최근 노출 빈도 범위의 난수를 가중치로 적용 
+        getRandomValue(1, 4),
+        getRandomValue(0, 1),
+        getRandomValue(1, 3),
+        getRandomValue(1, 2),
+        getRandomValue(0, 0),
+      ]
+
+      // 최소 선택개수 미만일 때, 가중치를 조정
+      var minCount = 10
+      var sum = recommands.reduce((accumulator, x) => accumulator + x)
+      console.log('sum', sum)
+
+      var loop = minCount - sum
+      while (loop --) {
+        var index = getRandomValue(0, recommands.length)
+        recommands[index] += 1
+        console.log('[', loop, '] ', index, 'increased!!'
+            , recommands.reduce((accumulator, x) => accumulator + x))
+      }
+      // for (var i in recommands) {
+      //   // console.log('i', i) // 0 1 2 ... 4
+      //   var val = recommands[i]
+
+      // }
+
       var { weights } = this
       for (var i = 0; i < recommands.length; i++) {
         weights[i] = recommands[i]

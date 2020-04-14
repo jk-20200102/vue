@@ -188,6 +188,7 @@ export default {
     console.log('size', size)
     if (size) {
       this.latelySize = Number(size)
+      console.log('latelySize', this.latelySize)
     }
   },
   mounted() {
@@ -228,13 +229,18 @@ export default {
     },
     getSelectedNumbers() {
       console.log('--- getSelectedNumbers')
-      // console.log(this.weights)
+      const { seeds, weights } = this
+      console.log('seeds', seeds)
+      console.log('weights', weights)
 
       var buff = []
-      for (var i in this.weights) {
-        var weight = this.weights[i]
+      for (var i in weights) {
+        // 시드 갯수 이상이면 중단
+        if (i >= seeds.length) break
+
+        var weight = weights[i]
         if (weight > 0) {
-          var sample = getRandomSubarray(this.seeds[i], weight)
+          var sample = getRandomSubarray(seeds[i], weight)
           // console.log('sample', sample)
           buff = buff.concat(sample).sort(function (a, b) { return a - b })
           // console.log('buff', buff)

@@ -15,21 +15,19 @@
               <strong>회차 기준</strong>
             </p>
 
-            <strong>추천번호</strong>
-            <!-- <button type="button" class="btn btn-link"
-                v-on:click="doRecommand"
-                data-container="body" data-toggle="popover" data-placement="bottom"
-                data-content="선택된 번호에서 추천번호를 받습니다."
-            > -->
-            <button type="button" class="btn btn-link"
-                v-on:click="doRecommand"
-            >
-              추천받기
-            </button>
-            <input type="checkbox" id="isEveryChange" v-model="isEveryChange">
-            <label for="isEveryChange">
-              매번새로선택
-            </label>
+            <p>
+              <strong>추천번호</strong>
+              <!-- <button type="button" class="btn btn-link"
+                  v-on:click="doRecommand"
+                  data-container="body" data-toggle="popover" data-placement="bottom"
+                  data-content="선택된 번호에서 추천번호를 받습니다."
+              > -->
+              <button type="button" class="btn btn-primary btn-sm"
+                  v-on:click="doRecommand"
+              >
+                추천받기
+              </button>
+            </p>
 
             <p v-if="winNumbers.length === 0">
               추천 번호가 없습니다.
@@ -64,6 +62,11 @@
             >
               가중치로 선택된 번호받기
             </button>
+            <input type="checkbox" id="isEveryChange" v-model="isEveryChange">
+            <label for="isEveryChange">
+              매번새로선택
+            </label>
+
             <p v-if="selectedNumbers.length === 0">
               선택된 번호가 없습니다.
             </p>

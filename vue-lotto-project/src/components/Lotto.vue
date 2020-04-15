@@ -1,10 +1,19 @@
 <template>
 
   <div>
-    <ul class="list-group">
-    <li class="list-group-item list-group-item-success">
-    <div class="nums">
-        <div class="num win">
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-1">
+        <div class="card text-black bg-light">
+          <div class="card-header">
+            <h2>로또645 번호 추천</h2>
+          </div>
+          <div class="card-body">
+
+          </div>
+        </div>
+
+      <div class="card text-black bg-light">
+        <div class="card-header">
             <p>
               <strong>({{ getWinSize }}) 최근</strong>
               <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
@@ -28,37 +37,44 @@
                 추천받기
               </button>
             </p>
-
-            <p v-if="winNumbers.length === 0">
-              추천 번호가 없습니다.
-            </p>
-            <p v-else>
-                <span v-for="(num, i) in winNumbers" v-bind:key="i" class="ball_645 lrg ball1"
-                    :class="{
-                      ball1: getBallType(num) == 1,
-                      ball2: getBallType(num) == 2,
-                      ball3: getBallType(num) == 3,
-                      ball4: getBallType(num) == 4,
-                      ball5: getBallType(num) == 5,
-                    }"
-                >
-                  {{ num }}
-                </span>
-            </p>
         </div>
-        <!-- <div class="num bonus">
-            <strong>보너스</strong>
-            <p><span class="ball_645 lrg ball2">20</span></p>
-        </div> -->
+        <div class="card-body">
+          <div class="nums">
+              <div class="num win">
+                  <p v-if="winNumbers.length === 0">
+                    추천 번호가 없습니다.
+                  </p>
+                  <p v-else>
+                      <span v-for="(num, i) in winNumbers" v-bind:key="i"
+                          style="transform: scale( .9 );"
+                          class="ball_645 lrg ball1 mr-10"
+                          :class="{
+                            ball1: getBallType(num) == 1,
+                            ball2: getBallType(num) == 2,
+                            ball3: getBallType(num) == 3,
+                            ball4: getBallType(num) == 4,
+                            ball5: getBallType(num) == 5,
+                          }"
+                      >
+                        {{ num }}
+                      </span>
+                  </p>
+              </div>
+              <!-- <div class="num bonus">
+                  <strong>보너스</strong>
+                  <p><span class="ball_645 lrg ball2">20</span></p>
+              </div> -->
+          </div>
+        </div>
+      </div>
 
-    </div>
-    </li>
-    <li class="list-group-item list-group-item-success">
-    <div class="nums">
-        <div>
+      <div class="card text-white bg-info">
+        <div class="card-header">
             <strong>선택된 번호</strong>
+            <span class="badge badge-success">{{ selectedNumbers.length }}</span>
             <button type="button" class="btn btn-primary btn-sm mr-10"
                 v-on:click="getSelectedNumbers"
+                :disabled="isEveryChange"
             >
               번호받기
             </button>
@@ -66,37 +82,39 @@
             <label for="isEveryChange">
               매번새로선택
             </label>
-
-            <p v-if="selectedNumbers.length === 0">
-              선택된 번호가 없습니다.
-            </p>
-            <p v-else>
-              <span v-for="(num, i) in selectedNumbers" v-bind:key="i">
-                <span class="ball_645 lrg ball1"
-                    style="transform: scale( .6 );"
-                    :class="{
-                      ball1: getBallType(num) == 1,
-                      ball2: getBallType(num) == 2,
-                      ball3: getBallType(num) == 3,
-                      ball4: getBallType(num) == 4,
-                      ball5: getBallType(num) == 5,
-                    }"
-                >
-                  {{ num }}
-                </span>
-                <span class="badge badge-light">{{ i + 1 }}</span>
-              </span>
-            </p>
         </div>
+        <div class="card-body">
+          <div class="nums">
+              <p v-if="selectedNumbers.length === 0">
+                선택된 번호가 없습니다.
+              </p>
+              <p v-else>
+                <span v-for="(num, i) in selectedNumbers" v-bind:key="i">
+                  <span class="ball_645 lrg"
+                      style="transform: scale( .6 );"
+                      :class="{
+                        ball1: getBallType(num) == 1,
+                        ball2: getBallType(num) == 2,
+                        ball3: getBallType(num) == 3,
+                        ball4: getBallType(num) == 4,
+                        ball5: getBallType(num) == 5,
+                      }"
+                  >
+                    {{ num }}
+                  </span>
 
+                </span>
+              </p>
+          </div>
+      </div>
     </div>
-    </li>
-    </ul>
+      </div>
+    </div>
 
     <div class="row row-cols-1 row-cols-md-2"
         v-for="(seed, i) in seeds" :key="i"
     >
-      <div class="col mb-4">
+      <div class="col mb-1">
       <div class="card text-black bg-light">
         <div class="card-header">
           <strong v-if="i === 0">최근 {{ latelySize }}회 동안 한 번도 안 나온 숫자</strong>

@@ -193,7 +193,6 @@ export default {
   },
   mounted() {
     console.log('--- mounted');
-    this.weights = this.recommandWeights
     this.doInit()
 
     $(function () {
@@ -216,6 +215,7 @@ export default {
       console.log('--- doInit')
       this.analysis(this.latelySize)
       this.seeds = this.getCountList
+      this.weights = this.recommandWeights
     },
     doRecommand() {
       console.log('--- doRecommand')
@@ -234,9 +234,9 @@ export default {
       console.log('weights', weights)
 
       var buff = []
-      for (var i in weights) {
+      for (var i in seeds) {
         // 시드 갯수 이상이면 중단
-        if (i >= seeds.length) break
+        // if (i >= seeds.length) break
 
         var weight = weights[i]
         if (weight > 0) {

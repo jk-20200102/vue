@@ -22,7 +22,7 @@
                   data-container="body" data-toggle="popover" data-placement="bottom"
                   data-content="선택된 번호에서 추천번호를 받습니다."
               > -->
-              <button type="button" class="btn btn-primary btn-sm"
+              <button type="button" class="btn btn-primary"
                   v-on:click="doRecommand"
               >
                 추천받기
@@ -57,10 +57,10 @@
     <div class="nums">
         <div>
             <strong>선택된 번호</strong>
-            <button type="button" class="btn btn-link"
+            <button type="button" class="btn btn-primary btn-sm mr-10"
                 v-on:click="getSelectedNumbers"
             >
-              가중치로 선택된 번호받기
+              번호받기
             </button>
             <input type="checkbox" id="isEveryChange" v-model="isEveryChange">
             <label for="isEveryChange">
@@ -91,46 +91,50 @@
 
     </div>
     </li>
+    </ul>
 
-    <li class="list-group-item"
+    <div class="row row-cols-1 row-cols-md-2"
         v-for="(seed, i) in seeds" :key="i"
     >
-    <div class="nums">
-
-        <div class="num win">
-            <p>
-              <strong v-if="i === 0">최근 {{ latelySize }}회 동안 한 번도 안 나온 숫자</strong>
-              <strong v-else>최근 {{ latelySize }}회 동안 {{ i }}회 나온 숫자</strong>
-            </p>
-            <p>
-              가중치:
-              <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                  v-model="weights[i]" :min="0" :max="seed.length" :step="1">
-              </vue-numeric-input>
-            </p>
-            <p>
-              <span v-for="(num, j) in seed" v-bind:key="j">
-                <span class="ball_645 lrg"
-                 style="transform: scale( .6 );"
-                    :class="{
-                      ball0: weights[i] === 0,
-                      ball1: weights[i] > 0 && getBallType(num) == 1,
-                      ball2: weights[i] > 0 && getBallType(num) == 2,
-                      ball3: weights[i] > 0 && getBallType(num) == 3,
-                      ball4: weights[i] > 0 && getBallType(num) == 4,
-                      ball5: weights[i] > 0 && getBallType(num) == 5,
-                    }"
-                >
-                  {{ num }}
-                </span>
-                <span class="badge badge-light">{{ j + 1 }}</span>
-              </span>
-            </p>
+      <div class="col mb-4">
+      <div class="card text-black bg-light">
+        <div class="card-header">
+          <strong v-if="i === 0">최근 {{ latelySize }}회 동안 한 번도 안 나온 숫자</strong>
+          <strong v-else>최근 {{ latelySize }}회 동안 {{ i }}회 나온 숫자</strong>
+          <span class="badge badge-success">{{ seed.length }}</span>
         </div>
-
+        <div class="card-body clearfix">
+          <span class="card-title float-left">
+            {{ seed.length }}개 중
+            <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
+                v-model="weights[i]" :min="0" :max="seed.length" :step="1">
+            </vue-numeric-input>개 선택
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="nums">
+              <div class="num win">
+                  <span v-for="(num, j) in seed" v-bind:key="j">
+                    <span class="ball_645 sml mr-10"
+                      style="transform: scale( 1.2 );"
+                        :class="{
+                          ball0: weights[i] === 0,
+                          ball1: weights[i] > 0 && getBallType(num) == 1,
+                          ball2: weights[i] > 0 && getBallType(num) == 2,
+                          ball3: weights[i] > 0 && getBallType(num) == 3,
+                          ball4: weights[i] > 0 && getBallType(num) == 4,
+                          ball5: weights[i] > 0 && getBallType(num) == 5,
+                        }"
+                    >
+                      {{ num }}
+                    </span>
+                  </span>
+              </div>
+          </div>
+        </div>
+      </div>
     </div>
-    </li>
-    </ul>
+    </div>
   </div>
 
 </template>

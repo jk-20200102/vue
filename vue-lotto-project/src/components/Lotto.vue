@@ -68,7 +68,8 @@
               선택된 번호가 없습니다.
             </p>
             <p v-else>
-                <span v-for="(num, i) in selectedNumbers" v-bind:key="i" class="ball_645 lrg ball1"
+              <span v-for="(num, i) in selectedNumbers" v-bind:key="i">
+                <span class="ball_645 lrg ball1"
                     style="transform: scale( .6 );"
                     :class="{
                       ball1: getBallType(num) == 1,
@@ -80,6 +81,8 @@
                 >
                   {{ num }}
                 </span>
+                <span class="badge badge-light">{{ i + 1 }}</span>
+              </span>
             </p>
         </div>
 
@@ -103,7 +106,8 @@
               </vue-numeric-input>
             </p>
             <p>
-                <span v-for="(num, j) in seed" v-bind:key="j" class="ball_645 lrg"
+              <span v-for="(num, j) in seed" v-bind:key="j">
+                <span class="ball_645 lrg"
                  style="transform: scale( .6 );"
                     :class="{
                       ball0: weights[i] === 0,
@@ -116,6 +120,8 @@
                 >
                   {{ num }}
                 </span>
+                <span class="badge badge-light">{{ j + 1 }}</span>
+              </span>
             </p>
         </div>
 
@@ -264,6 +270,7 @@ export default {
     recommandWeights() {
       // weights: [4,0,1,2,0,]
       // weights: [2,1,3,1,0,]
+      const { seeds } = this
       var recommands = [
         // 최근 노출 빈도 범위의 난수를 가중치로 적용 
         getRandomValue(1, 4),
@@ -281,7 +288,7 @@ export default {
 
       var loop = minCount - sum
       while (loop --) {
-        var index = getRandomValue(0, recommands.length)
+        var index = getRandomValue(0, seeds.length - 1)
         // console.log(recommands[index])
         recommands[index] += 1
         // console.log(recommands[index])

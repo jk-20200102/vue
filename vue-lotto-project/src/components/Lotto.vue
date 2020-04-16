@@ -9,10 +9,10 @@
           </div>
           <div class="row">
             <ol>
-              <li>{{ getWinSize }}회차 당첨번호부터
-                  {{ getWinSize - latelySize - 1 }}회차 당첨번호까지 노출수로 분류하고</li>
-              <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호를 선택하여 모은 후</li>
-              <li>마지막으로 선택된 번호에서 6개의 추천번호를 제공함.</li>
+              <li>{{ getWinSize - latelySize - 1 }}회부터
+                  {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
+              <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
+              <li>선택된 번호에서 6개의 추천번호를 제공</li>
             </ol>
           </div>
         </div>
@@ -43,6 +43,9 @@
                       </span>
                   </p>
               </div>
+              <section class="toutube">
+                <div class="youtube-cover"></div>
+              </section>
               <!-- <div class="num bonus">
                   <strong>보너스</strong>
                   <p><span class="ball_645 lrg ball2">20</span></p>
@@ -52,7 +55,7 @@
               <button type="button" class="btn btn-primary"
                   v-on:click="doRecommand"
               >
-                다른번호 추천받기
+                다른 번호 추천받기
               </button>
               <br/>
             </p>
@@ -62,7 +65,7 @@
 
       <div class="card text-white bg-info">
         <div class="card-header">
-            <strong>{{ getWinSize }}회차 부터 최근</strong>
+            <strong>{{ getWinSize }}회 부터 최근</strong>
             <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
                 v-on:change="doInit"> -->
             <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"

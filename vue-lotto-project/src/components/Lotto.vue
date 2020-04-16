@@ -7,36 +7,19 @@
           <div class="card-header">
             <h2>로또645 번호 추천</h2>
           </div>
-          <div class="card-body">
-
+          <div class="row">
+            <ol>
+              <li>{{ getWinSize }}회차 당첨번호부터
+                  {{ getWinSize - latelySize - 1 }}회차 당첨번호까지 노출수로 분류하고</li>
+              <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호를 선택하여 모은 후</li>
+              <li>마지막으로 선택된 번호에서 6개의 추천번호를 제공함.</li>
+            </ol>
           </div>
         </div>
 
-      <div class="card text-black bg-light">
+      <div class="card text-black bg-success">
         <div class="card-header">
-            <p>
-              <strong>({{ getWinSize }}) 최근</strong>
-              <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
-                  v-on:change="doInit"> -->
-              <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                  v-model.number="latelySize" :min="5" :max="23" :step="1">
-              </vue-numeric-input>
-              <strong>회차 기준</strong>
-            </p>
-
-            <p>
-              <strong>추천번호</strong>
-              <!-- <button type="button" class="btn btn-link"
-                  v-on:click="doRecommand"
-                  data-container="body" data-toggle="popover" data-placement="bottom"
-                  data-content="선택된 번호에서 추천번호를 받습니다."
-              > -->
-              <button type="button" class="btn btn-primary"
-                  v-on:click="doRecommand"
-              >
-                추천받기
-              </button>
-            </p>
+          <h3>추천번호</h3>
         </div>
         <div class="card-body">
           <div class="nums">
@@ -65,23 +48,42 @@
                   <p><span class="ball_645 lrg ball2">20</span></p>
               </div> -->
           </div>
+            <p>
+              <button type="button" class="btn btn-primary"
+                  v-on:click="doRecommand"
+              >
+                다른번호 추천받기
+              </button>
+              <br/>
+            </p>
+
         </div>
       </div>
 
       <div class="card text-white bg-info">
         <div class="card-header">
+            <strong>{{ getWinSize }}회차 부터 최근</strong>
+            <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
+                v-on:change="doInit"> -->
+            <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
+                v-model.number="latelySize" :min="5" :max="23" :step="1">
+            </vue-numeric-input><strong>회 기준</strong>
+
             <strong>선택된 번호</strong>
-            <span class="badge badge-success">{{ selectedNumbers.length }}</span>
-            <button type="button" class="btn btn-primary btn-sm mr-10"
+            <span class="badge badge-success">{{ selectedNumbers.length }}</span>개
+            <!-- <button type="button" class="btn btn-primary btn-sm mr-10"
                 v-on:click="getSelectedNumbers"
-                :disabled="isEveryChange"
+                :disabled="isKeepNumber"
             >
-              번호받기
-            </button>
-            <input type="checkbox" id="isEveryChange" v-model="isEveryChange">
-            <label for="isEveryChange">
-              매번새로선택
-            </label>
+              새로번호받기
+            </button> -->
+
+            (<span class="ml-10">
+              <input type="checkbox" id="isKeepNumber" v-model="isKeepNumber">
+              <label for="isKeepNumber">
+                번호유지
+              </label>
+            </span>)
         </div>
         <div class="card-body">
           <div class="nums">
@@ -106,53 +108,55 @@
                 </span>
               </p>
           </div>
+
+          <div class="row row-cols-1 row-cols-md-2"
+              v-for="(seed, i) in seeds" :key="i"
+          >
+            <div class="col mb-1">
+            <div class="card text-black bg-secondary">
+              <div class="card-header">
+                <strong v-if="i === 0">한 번도 안 나온 숫자</strong>
+                <strong v-else>{{ i }}회 나온 숫자</strong>
+                <span class="badge badge-success">{{ seed.length }}</span>개
+              </div>
+              <div class="card-body clearfix">
+                <span class="card-title float-left">
+                  {{ seed.length }}개 중
+                  <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
+                      v-model="weights[i]" :min="0" :max="seed.length" :step="1">
+                  </vue-numeric-input>개 선택
+                </span>
+              </div>
+              <div class="card-body">
+                <div class="nums">
+                    <div class="num win">
+                        <span v-for="(num, j) in seed" v-bind:key="j">
+                          <span class="ball_645 sml mr-10"
+                            style="transform: scale( 1.2 );"
+                              :class="{
+                                ball0: weights[i] === 0,
+                                ball1: weights[i] > 0 && getBallType(num) == 1,
+                                ball2: weights[i] > 0 && getBallType(num) == 2,
+                                ball3: weights[i] > 0 && getBallType(num) == 3,
+                                ball4: weights[i] > 0 && getBallType(num) == 4,
+                                ball5: weights[i] > 0 && getBallType(num) == 5,
+                              }"
+                          >
+                            {{ num }}
+                          </span>
+                        </span>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
       </div>
     </div>
       </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2"
-        v-for="(seed, i) in seeds" :key="i"
-    >
-      <div class="col mb-1">
-      <div class="card text-black bg-light">
-        <div class="card-header">
-          <strong v-if="i === 0">최근 {{ latelySize }}회 동안 한 번도 안 나온 숫자</strong>
-          <strong v-else>최근 {{ latelySize }}회 동안 {{ i }}회 나온 숫자</strong>
-          <span class="badge badge-success">{{ seed.length }}</span>
-        </div>
-        <div class="card-body clearfix">
-          <span class="card-title float-left">
-            {{ seed.length }}개 중
-            <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                v-model="weights[i]" :min="0" :max="seed.length" :step="1">
-            </vue-numeric-input>개 선택
-          </span>
-        </div>
-        <div class="card-body">
-          <div class="nums">
-              <div class="num win">
-                  <span v-for="(num, j) in seed" v-bind:key="j">
-                    <span class="ball_645 sml mr-10"
-                      style="transform: scale( 1.2 );"
-                        :class="{
-                          ball0: weights[i] === 0,
-                          ball1: weights[i] > 0 && getBallType(num) == 1,
-                          ball2: weights[i] > 0 && getBallType(num) == 2,
-                          ball3: weights[i] > 0 && getBallType(num) == 3,
-                          ball4: weights[i] > 0 && getBallType(num) == 4,
-                          ball5: weights[i] > 0 && getBallType(num) == 5,
-                        }"
-                    >
-                      {{ num }}
-                    </span>
-                  </span>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
+
   </div>
 
 </template>
@@ -209,7 +213,7 @@ export default {
         /* 4 */ [20,21],
       ],
       selectedNumbers: [],
-      isEveryChange: true,
+      isKeepNumber: !true,
     };
   },
   created() {
@@ -225,6 +229,7 @@ export default {
   mounted() {
     console.log('--- mounted');
     this.doInit()
+    this.doRecommand()
 
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
@@ -252,7 +257,7 @@ export default {
       console.log('--- doRecommand')
       // this.getSelectedNumbers()
       var { selectedNumbers } = this
-      if (this.isEveryChange || !selectedNumbers || selectedNumbers.length === 0) {
+      if (!this.isKeepNumber || !selectedNumbers || selectedNumbers.length === 0) {
         selectedNumbers = this.getSelectedNumbers()
       }
       // this.winNumbers = buff.slice(0)

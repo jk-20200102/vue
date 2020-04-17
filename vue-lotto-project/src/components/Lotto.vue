@@ -7,20 +7,15 @@
           <div class="card-header">
             <h2>로또645 번호 추천</h2>
           </div>
-          <div class="row">
-            <ol>
-              <li>{{ getWinSize - latelySize - 1 }}회부터
-                  {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
-              <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
-              <li>선택된 번호에서 6개의 추천번호를 제공</li>
-            </ol>
+          <div class="mt-3 mb-3">
+            최근 당첨번호를 분류하여 로또 번호를 추천해 드립니다.
           </div>
         </div>
 
-      <div class="card text-black bg-success">
-        <div class="card-header">
+      <div class="card text-black bg-white">
+        <!-- <div class="card-header">
           <h3>추천번호</h3>
-        </div>
+        </div> -->
         <div class="card-body">
           <div class="nums">
               <div class="num win">
@@ -63,7 +58,22 @@
         </div>
       </div>
 
-      <div class="card text-white bg-info">
+      <div>
+          <div class="bg-light mt-4">
+            <h4 style="padding-left: 30px;">
+              &lt; 추천 절차 >
+            </h4>
+            <div>
+                <ol>
+                  <li>{{ getWinSize - latelySize - 1 }}회부터
+                      {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
+                  <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
+                  <li>선택된 번호에서 6개의 추천번호를 제공</li>
+                </ol>
+            </div>
+          </div>
+      </div>
+      <div class="card text-black bg-light mt-3">
         <div class="card-header">
             <strong>{{ getWinSize }}회 부터 최근</strong>
             <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
@@ -112,23 +122,19 @@
               </p>
           </div>
 
-          <div class="row row-cols-1 row-cols-md-2"
+          <div class="row row-cols-1 row-cols-md-2 mt-3"
               v-for="(seed, i) in seeds" :key="i"
           >
             <div class="col mb-1">
-            <div class="card text-black bg-secondary">
+            <div class="card text-black bg-info">
               <div class="card-header">
                 <strong v-if="i === 0">한 번도 안 나온 숫자</strong>
                 <strong v-else>{{ i }}회 나온 숫자</strong>
-                <span class="badge badge-success">{{ seed.length }}</span>개
-              </div>
-              <div class="card-body clearfix">
-                <span class="card-title float-left">
-                  {{ seed.length }}개 중
+                <strong>{{ seed.length }}개 중<br>
                   <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
                       v-model="weights[i]" :min="0" :max="seed.length" :step="1">
                   </vue-numeric-input>개 선택
-                </span>
+                </strong>
               </div>
               <div class="card-body">
                 <div class="nums">

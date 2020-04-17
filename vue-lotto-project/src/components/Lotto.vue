@@ -5,7 +5,7 @@
       <div class="col mb-1">
         <div class="card text-black bg-light">
           <div class="card-header">
-            <h2>로또645 번호 추천</h2>
+            <h2>{{ documentTitle }}</h2>
           </div>
           <div class="mt-3 mb-3">
             최근 당첨번호를 분류하여 로또 번호를 추천해 드립니다.
@@ -348,6 +348,9 @@ export default {
 
       return weights
     },
+    documentTitle() {
+      return document.title
+    }
   },
   watch: {
     latelySize: function(newVal, oldVal) {

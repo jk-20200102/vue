@@ -57,108 +57,119 @@
 
         </div>
       </div>
+
       <div>
-          <div class="bg-light mt-4">
-            <h4 style="padding-left: 30px;">
-              &lt; 추천 절차 >
-            </h4>
-            <div>
-                <ol>
-                  <li>{{ getWinSize - latelySize - 1 }}회부터
-                      {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
-                  <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
-                  <li>선택된 번호에서 6개의 추천번호를 제공</li>
-                </ol>
-            </div>
-          </div>
+        <button
+            v-on:click="toggleConfig">설정하기</button>
       </div>
-      <div class="card text-black bg-light mt-3">
-        <div class="card-header">
-            <strong>{{ getWinSize }}회 부터 최근</strong>
-            <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
-                v-on:change="doInit"> -->
-            <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                v-model.number="latelySize" :min="5" :max="23" :step="1">
-            </vue-numeric-input><strong>회 기준</strong>
-
-            <strong>선택된 번호</strong>
-            <span class="badge badge-success">{{ selectedNumbers.length }}</span>개
-            <!-- <button type="button" class="btn btn-primary btn-sm mr-10"
-                v-on:click="getSelectedNumbers"
-                :disabled="isKeepNumber"
-            >
-              새로번호받기
-            </button> -->
-
-            (<span class="ml-10">
-              <input type="checkbox" id="isKeepNumber" v-model="isKeepNumber">
-              <label for="isKeepNumber">
-                번호유지
-              </label>
-            </span>)
-        </div>
-        <div class="card-body">
-          <div class="nums">
-              <p v-if="selectedNumbers.length === 0">
-                선택된 번호가 없습니다.
-              </p>
-              <p v-else>
-                <span v-for="(num, i) in selectedNumbers" v-bind:key="i">
-                  <span class="ball_645 lrg"
-                      style="transform: scale( .6 );"
-                      :class="{
-                        ball1: getBallType(num) == 1,
-                        ball2: getBallType(num) == 2,
-                        ball3: getBallType(num) == 3,
-                        ball4: getBallType(num) == 4,
-                        ball5: getBallType(num) == 5,
-                      }"
-                  >
-                    {{ num }}
-                  </span>
-
-                </span>
-              </p>
-          </div>
-
-          <div class="row row-cols-1 row-cols-md-2 mt-3"
-              v-for="(seed, i) in seeds" :key="i"
-          >
-            <div class="col mb-1">
-            <div class="card text-black bg-info">
-              <div class="card-header">
-                <strong v-if="i === 0">한 번도 안 나온 숫자</strong>
-                <strong v-else>{{ i }}회 나온 숫자</strong>
-                <strong>{{ seed.length }}개 중<br>
-                  <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                      v-model="weights[i]" :min="0" :max="seed.length" :step="1">
-                  </vue-numeric-input>개 선택
-                </strong>
+      <div
+        :class="{
+          hide: !isShowConfig,
+        }"
+      >
+        <div>
+            <div class="bg-light mt-4">
+              <h4 style="padding-left: 30px;">
+                &lt; 추천 절차 >
+              </h4>
+              <div>
+                  <ol>
+                    <li>{{ getWinSize - latelySize - 1 }}회부터
+                        {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
+                    <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
+                    <li>선택된 번호에서 6개의 추천번호를 제공</li>
+                  </ol>
               </div>
-              <div class="card-body">
-                <div class="nums">
-                    <div class="num win">
-                        <span v-for="(num, j) in seed" v-bind:key="j">
-                          <span class="ball_645 sml mr-10"
-                            style="transform: scale( 1.2 );"
-                              :class="{
-                                ball0: weights[i] === 0,
-                                ball1: weights[i] > 0 && getBallType(num) == 1,
-                                ball2: weights[i] > 0 && getBallType(num) == 2,
-                                ball3: weights[i] > 0 && getBallType(num) == 3,
-                                ball4: weights[i] > 0 && getBallType(num) == 4,
-                                ball5: weights[i] > 0 && getBallType(num) == 5,
-                              }"
-                          >
-                            {{ num }}
+            </div>
+        </div>
+        <div class="card text-black bg-light mt-3">
+          <div class="card-header">
+              <strong>{{ getWinSize }}회 부터 최근</strong>
+              <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
+                  v-on:change="doInit"> -->
+              <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
+                  v-model.number="latelySize" :min="5" :max="23" :step="1">
+              </vue-numeric-input><strong>회 기준</strong>
+
+              <strong>선택된 번호</strong>
+              <span class="badge badge-success">{{ selectedNumbers.length }}</span>개
+              <!-- <button type="button" class="btn btn-primary btn-sm mr-10"
+                  v-on:click="getSelectedNumbers"
+                  :disabled="isKeepNumber"
+              >
+                새로번호받기
+              </button> -->
+
+              (<span class="ml-10">
+                <input type="checkbox" id="isKeepNumber" v-model="isKeepNumber">
+                <label for="isKeepNumber">
+                  번호유지
+                </label>
+              </span>)
+          </div>
+          <div class="card-body">
+            <div class="nums">
+                <p v-if="selectedNumbers.length === 0">
+                  선택된 번호가 없습니다.
+                </p>
+                <p v-else>
+                  <span v-for="(num, i) in selectedNumbers" v-bind:key="i">
+                    <span class="ball_645 lrg"
+                        style="transform: scale( .6 );"
+                        :class="{
+                          ball1: getBallType(num) == 1,
+                          ball2: getBallType(num) == 2,
+                          ball3: getBallType(num) == 3,
+                          ball4: getBallType(num) == 4,
+                          ball5: getBallType(num) == 5,
+                        }"
+                    >
+                      {{ num }}
+                    </span>
+
+                  </span>
+                </p>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 mt-3"
+                v-for="(seed, i) in seeds" :key="i"
+            >
+              <div class="col mb-1">
+              <div class="card text-black bg-info">
+                <div class="card-header">
+                  <strong v-if="i === 0">한 번도 안 나온 숫자</strong>
+                  <strong v-else>{{ i }}회 나온 숫자</strong>
+                  <strong>{{ seed.length }}개 중<br>
+                    <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
+                        v-model="weights[i]" :min="0" :max="seed.length" :step="1">
+                    </vue-numeric-input>개 선택
+                  </strong>
+                </div>
+                <div class="card-body">
+                  <div class="nums">
+                      <div class="num win">
+                          <span v-for="(num, j) in seed" v-bind:key="j">
+                            <span class="ball_645 sml mr-10"
+                              style="transform: scale( 1.2 );"
+                                :class="{
+                                  ball0: weights[i] === 0,
+                                  ball1: weights[i] > 0 && getBallType(num) == 1,
+                                  ball2: weights[i] > 0 && getBallType(num) == 2,
+                                  ball3: weights[i] > 0 && getBallType(num) == 3,
+                                  ball4: weights[i] > 0 && getBallType(num) == 4,
+                                  ball5: weights[i] > 0 && getBallType(num) == 5,
+                                }"
+                            >
+                              {{ num }}
+                            </span>
                           </span>
-                        </span>
-                    </div>
+                      </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          </div>
+            </div>
+        </div>
       </div>
     </div>
       </div>
@@ -207,6 +218,7 @@ export default {
   },
   data() {
     return {
+      isShowConfig: false,
       latelySize: 10,
       winNumbers: [],
       // weights: [4,0,1,2,0,],
@@ -297,6 +309,9 @@ export default {
     },
     getBallType(number) {
       return Math.floor((number - 1/* 1~10 */) / 10) + 1
+    },
+    toggleConfig() {
+      this.isShowConfig = !this.isShowConfig
     },
   },
   computed: {

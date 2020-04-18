@@ -59,29 +59,32 @@
       </div>
 
       <div>
+          <div class="bg-light mt-4">
+            <h4 style="padding-left: 30px;">
+              &lt; 추천 절차 >
+            </h4>
+            <div>
+                <ol>
+                  <li>{{ getWinSize - latelySize - 1 }}회부터
+                      {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
+                  <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
+                  <li>선택된 번호에서 6개의 추천번호를 제공</li>
+                </ol>
+            </div>
+          </div>
+      </div>
+      <div>
         <button
-            v-on:click="toggleConfig">설정하기</button>
+            v-on:click="toggleConfig">
+          <span v-if="!isShowConfig">설정 열기</span>
+          <span v-else>설정 닫기</span>
+        </button>
       </div>
       <div
         :class="{
           hide: !isShowConfig,
         }"
       >
-        <div>
-            <div class="bg-light mt-4">
-              <h4 style="padding-left: 30px;">
-                &lt; 추천 절차 >
-              </h4>
-              <div>
-                  <ol>
-                    <li>{{ getWinSize - latelySize - 1 }}회부터
-                        {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
-                    <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
-                    <li>선택된 번호에서 6개의 추천번호를 제공</li>
-                  </ol>
-              </div>
-            </div>
-        </div>
         <div class="card text-black bg-light mt-3">
           <div class="card-header">
               <strong>{{ getWinSize }}회 부터 최근</strong>

@@ -326,14 +326,15 @@ export default {
     recommandWeights() {
       // weights: [4,0,1,2,0,]
       // weights: [2,1,3,1,0,]
+      // weights: [1,3,2,0,1,]
       const { seeds } = this
       var recommands = [
         // 최근 노출 빈도 범위의 난수를 가중치로 적용 
         getRandomValue(1, 4),
-        getRandomValue(0, 1),
         getRandomValue(1, 3),
-        getRandomValue(1, 2),
-        getRandomValue(0, 0),
+        getRandomValue(1, 3),
+        getRandomValue(0, 2),
+        getRandomValue(0, 1),
         0,0,0,0,0,
       ]
 

@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       path: '/lotto/:size',
-      name: 'lotto',
+      name: 'lotto:size',
       component: Lotto,
     },
     // {

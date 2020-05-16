@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import Lotto from '@/views/com/lotto/Lotto.vue'
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,12 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Lotto
+  },
+  {
+    path: '/lotto',
+    name: 'Lotto',
+    component: Lotto
   },
   {
     path: '/about',

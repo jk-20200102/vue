@@ -16,6 +16,7 @@
             >
             </lotto-pragment>
             <button
+                id="btn1"
                 v-on:click="clickButton"
             >
               버튼
@@ -29,10 +30,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+// import { mapGetters, mapMutations, mapActions } from 'vuex'
 // import VueNumericInput from 'vue-numeric-input'
 
-import * as CommonUtils from '@/components/com/utils/CommonUtils'
+// import * as CommonUtils from '@/components/com/utils/CommonUtils'
 import lottoPragment from '@/views/com/lotto/LottoPragment.vue'
 
 export default Vue.extend({

@@ -1,6 +1,6 @@
 export function getRandomSubarray(arr: [], size: number) {
   
-  let shuffled = arr.slice(0)
+  const shuffled = arr.slice(0)
   let i = arr.length
   let temp, index
 

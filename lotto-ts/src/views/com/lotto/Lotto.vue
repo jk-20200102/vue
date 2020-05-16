@@ -10,32 +10,16 @@
             최근 당첨번호를 분류하여 로또 번호를 추천해 드립니다.
           </div>
           <div class="nums">
-              <div class="num win">
-                  <p>
-                    {{ '00' }}회 당첨결과:
-                      <span v-for="(num, i) in [1,10,20,30,40,45]" v-bind:key="i"
-                          style="transform: scale( .6 );"
-                          class="ball_645 lrg ball1 mr-10"
-                          :class="{
-                            ball1: getBallType(num) == 1,
-                            ball2: getBallType(num) == 2,
-                            ball3: getBallType(num) == 3,
-                            ball4: getBallType(num) == 4,
-                            ball5: getBallType(num) == 5,
-                          }"
-                      >
-                        {{ num }}
-                        <span v-if="i === 6" class="badge badge-pill badge-warning">보너스</span>
-                      </span>
-                  </p>
-              </div>
-              <!-- <div class="num bonus">
-                  <strong>보너스</strong>
-                  <p><span v-for="(num, i) in getWinNumbers[0]" v-bind:key="i"
-                      class="ball_645 lrg ball2">
-                      {{ num }}
-                    </span></p>
-              </div> -->
+            <lotto-pragment
+                ref="winNumbers"
+                :winNumbers="winNumbers"
+            >
+            </lotto-pragment>
+            <button
+                v-on:click="clickButton"
+            >
+              버튼
+            </button>
           </div>
         </div>
       </div>
@@ -49,17 +33,19 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 // import VueNumericInput from 'vue-numeric-input'
 
 import * as CommonUtils from '@/components/com/utils/CommonUtils'
+import lottoPragment from '@/views/com/lotto/LottoPragment.vue'
 
 export default Vue.extend({
   name: 'lotto',
   components: {
-
+    lottoPragment,
   },
   data() {
     return {
+      winNumbers: [0,0,0,0,0,0],
       isShowConfig: false,
       latelySize: 10,
-      winNumbers: [],
+      // winNumbers: [],
       weights: Array(45).fill(0).map((v, i) => i === 0 ? 1 : 0),    // (45) [0,0,...,0]
       seeds: [],
       selectedNumbers: [],
@@ -80,13 +66,19 @@ export default Vue.extend({
   methods: {
     onInit() {
       console.log('--- onInit')
+      this.winNumbers = [1,2,3,4,5,6]
     },
     onRecommand() {
       console.log('--- onRecommand')
     },
-    getBallType(num: number) {
-      return Math.floor((num - 1/* 1~10 */) / 10) + 1
+    clickButton() {
+      console.log('--- clickButton')
+      this.winNumbers = [10,20,30,40,5,6]
+      // this.$refs.winNumbers.setWinNumbers([1,2,3,4,5,6])
     },
+    // getBallType(num: number) {
+    //   return Math.floor((num - 1/* 1~10 */) / 10) + 1
+    // },
   },
   computed: {
 

@@ -42,7 +42,7 @@ export default Vue.extend({
   data() {
     return {
       form: {
-        source: '{"a": ["1"], "b": ["2"]}',
+        source: '{"a": ["1"], "b": ["2"], "c": "string..."}',
         converted: '',
         hasComma: true,
         isInterface: false,
@@ -92,11 +92,12 @@ export default Vue.extend({
           keys.map((key, idx) => {
             const value = parsed[key];
             console.log(idx, key, typeof value, value instanceof Array);
-            if (this.form.isInterface) {
-              buff[idx] = `  ${key}?: ${value instanceof Array ? '[]' : value}`
+            const { isInterface } = this.form;
+            if (isInterface) {
+              buff[idx] = `  ${key}?: ${this.convertValue(value, isInterface)}`
                 + `${this.form.hasComma ? ',' : ''}`;
             } else {
-              buff[idx] = `  ${key}: ${value instanceof Array ? '[]' : value}`
+              buff[idx] = `  ${key}: ${this.convertValue(value, isInterface)}`
                 + `${this.form.hasComma ? ',' : ''}`;
             }
             return key;
@@ -116,6 +117,11 @@ export default Vue.extend({
       }
 
       // return;
+    },
+    convertValue(value: any, isInterface: boolean) {
+      const altString = isInterface ? 'string' : "''";
+      const altValue = typeof value === 'string' ? altString : '';
+      return value instanceof Array ? '[]' : altValue;
     },
   },
 });

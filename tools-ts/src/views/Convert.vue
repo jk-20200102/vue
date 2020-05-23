@@ -1,16 +1,28 @@
 <template>
   <div class="Convert">
+    <h3>
+      입/출력 파라미터:
+    </h3>
     <div class="soruce">
       <textarea name="" id="" cols="30" rows="10"
         v-model="form.source"
       ></textarea>
     </div>
-    <div>
+    <!-- -->
+
+    <div class="option">
+      <label for="isInterface">
+        <input type="checkbox" name="" id="isInterface" v-model="form.isInterface">
+        인터페이스형식
+      </label>
       <label for="hasComma">
         <input type="checkbox" name="" id="hasComma" v-model="form.hasComma">
         콤마붙이기
       </label>
     </div>
+    <h3>
+      코드변환:
+    </h3>
     <div class="target">
       <textarea name="" id="" cols="30" rows="10"
         v-model="form.converted"
@@ -33,6 +45,7 @@ export default Vue.extend({
         source: '{"a": ["1"], "b": ["2"]}',
         converted: '',
         hasComma: true,
+        isInterface: false,
       },
     };
   },
@@ -74,12 +87,18 @@ export default Vue.extend({
         const keys = Object.keys(parsed);
         console.log(keys);
         const buff: any[] = [];
+        // const tabspace =
         if (keys) {
           keys.map((key, idx) => {
             const value = parsed[key];
             console.log(idx, key, typeof value, value instanceof Array);
-            buff[idx] = `${key}: ${value instanceof Array ? '[]' : value}`
+            if (this.form.isInterface) {
+              buff[idx] = `  ${key}?: ${value instanceof Array ? '[]' : value}`
                 + `${this.form.hasComma ? ',' : ''}`;
+            } else {
+              buff[idx] = `  ${key}: ${value instanceof Array ? '[]' : value}`
+                + `${this.form.hasComma ? ',' : ''}`;
+            }
             return key;
           });
           // for (let i = 0; i < keys.length; i = i + 1) {
@@ -91,7 +110,7 @@ export default Vue.extend({
         // loops should be avoided in favor of array iterations
         //   console.log(key);
         // }
-        this.form.converted = buff.join('\n');
+        this.form.converted = ['{', ...buff, '}'].join('\n');
       } catch (e) {
         // console.log(e);
       }
@@ -103,7 +122,13 @@ export default Vue.extend({
 </script>
 
 <style lang="sass" scoped>
+h3
+  text-align: left
+  padding-left: 5em
 div
   textarea
     width: 80em
+div.option
+  position: relative
+  top: 3em
 </style>

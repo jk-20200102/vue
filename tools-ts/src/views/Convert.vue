@@ -19,6 +19,10 @@
         <input type="checkbox" name="" id="hasComma" v-model="form.hasComma">
         콤마붙이기
       </label>
+      <label for="isAlignment">
+        <input type="checkbox" name="" id="isAlignment" v-model="form.isAlignment">
+        줄맞추기
+      </label>
     </div>
     <h3>
       코드변환:
@@ -42,10 +46,26 @@ export default Vue.extend({
   data() {
     return {
       form: {
-        source: '{"a": ["1"], "b": ["2"], "c": "string..."}',
+        source: `
+{'agencyId':['DA04', 'DA04'],
+'mannum':['00', '00'],
+'dealer':['00', '00'],
+'div':['0', '0'],
+'crntno':['1031660239', '1031670002'],
+'proName':['SMT-1300', 'SMT-1300'],
+'inAmtDate':['20190101', '20190101'],
+'payAmt':['123720', '123720'],
+'phonno':['0', '0'],
+'openDate':['20160706', '20160804'],
+'payMon':['201609', '201610'],
+'telecom':['', ''],
+'callplan':['', ''],
+'orderType':['1', '1']}
+        `.trim(),
         converted: '',
         hasComma: true,
         isInterface: false,
+        isAlignment: true,
       },
     };
   },
@@ -78,7 +98,7 @@ export default Vue.extend({
           return;
         }
         console.log('--1', src);
-        const parsed = JSON.parse(src);
+        const parsed = JSON.parse(src.replace(/'/g, '"'));
         console.log('--2', parsed);
         // const stringify = JSON.stringify(parsed);
         // console.log('--3', stringify);
@@ -88,16 +108,22 @@ export default Vue.extend({
         console.log(keys);
         const buff: any[] = [];
         // const tabspace =
+        const { isInterface, isAlignment } = this.form;
         if (keys) {
+          let keyWidth = 0;
+          if (isAlignment) {
+            const widths = keys.map((x) => x.length);
+            keyWidth = widths.reduce((a, b) => (a > b ? a : b));
+          }
           keys.map((key, idx) => {
             const value = parsed[key];
             console.log(idx, key, typeof value, value instanceof Array);
-            const { isInterface } = this.form;
+
             if (isInterface) {
-              buff[idx] = `  ${key}?: ${this.convertValue(value, isInterface)}`
+              buff[idx] = `  ${this.convertKey(key, keyWidth)}?: ${this.convertValue(value, isInterface)}`
                 + `${this.form.hasComma ? ',' : ''}`;
             } else {
-              buff[idx] = `  ${key}: ${this.convertValue(value, isInterface)}`
+              buff[idx] = `  ${this.convertKey(key, keyWidth)}: ${this.convertValue(value, isInterface)}`
                 + `${this.form.hasComma ? ',' : ''}`;
             }
             return key;
@@ -118,10 +144,14 @@ export default Vue.extend({
 
       // return;
     },
-    convertValue(value: any, isInterface: boolean) {
+    convertValue(value: any, isInterface: boolean): string {
       const altString = isInterface ? 'string' : "''";
       const altValue = typeof value === 'string' ? altString : '';
       return value instanceof Array ? '[]' : altValue;
+    },
+    convertKey(key: string, keyWidth: number) {
+      const fills = keyWidth > 0 ? Array(keyWidth - key.length).fill(' ').join('') : '';
+      return `${key}${fills}`;
     },
   },
 });

@@ -32,3 +32,10 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## add modules
+
+### vue-clipboard2
+```
+npm install vue-clipboard2 --save
+```

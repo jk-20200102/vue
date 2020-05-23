@@ -23,6 +23,20 @@
         <input type="checkbox" name="" id="isAlignment" v-model="form.isAlignment">
         줄맞추기
       </label>
+      <!-- <button
+          v-clipboard:copy="form.converted"
+          v-clipboard:success="handleCopyStatus(true)"
+          v-clipboard:error="handleCopyStatus(false)"
+           @click="handleCopyStatus(true)"
+      > -->
+      <button
+          ref="copyToClipboard"
+          v-clipboard:copy="form.converted"
+      >
+        복사
+      </button>
+      <!-- <p v-if="copySucceeded === true">Copied!</p>
+      <p v-if="copySucceeded === false">Press CTRL+C to copy.</p> -->
     </div>
     <h3>
       코드변환:
@@ -30,6 +44,7 @@
     <div class="target">
       <textarea name="" id="" cols="30" rows="10"
         v-model="form.converted"
+        @focus="onFocus"
       ></textarea>
     </div>
   </div>
@@ -38,11 +53,17 @@
 <script lang="ts">
 // @ is an alias to /src
 import Vue from 'vue';
+import VueClipboard from 'vue-clipboard2';
 
 // const _ = require('lodash');
 
+Vue.use(VueClipboard);
+
 export default Vue.extend({
   name: 'Convert',
+  // components: {
+  //   'v-clipboard': 'VueClipboard',
+  // },
   data() {
     return {
       form: {
@@ -67,6 +88,7 @@ export default Vue.extend({
         isInterface: false,
         isAlignment: true,
       },
+      copySucceeded: false,
     };
   },
 
@@ -152,6 +174,15 @@ export default Vue.extend({
     convertKey(key: string, keyWidth: number) {
       const fills = keyWidth > 0 ? Array(keyWidth - key.length).fill(' ').join('') : '';
       return `${key}${fills}`;
+    },
+    handleCopyStatus(status: boolean) {
+      console.log(status);
+      this.copySucceeded = status;
+    },
+    onFocus() {
+      const el = this.$refs.copyToClipboard;
+      console.log(el);
+      // el.click();
     },
   },
 });

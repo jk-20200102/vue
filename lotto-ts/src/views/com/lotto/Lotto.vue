@@ -4,7 +4,7 @@
       <div class="col mb-1">
         <div class="card text-black bg-light">
           <div class="card-header">
-            <h2>{{ 'document.title' }}</h2>
+            <h2>{{ documentTitle }}</h2>
           </div>
           <div class="mt-3 mb-3">
             최근 당첨번호를 분류하여 로또 번호를 추천해 드립니다.
@@ -12,6 +12,7 @@
           <div class="nums">
             <lotto-pragment
                 ref="winNumbers"
+                :times="100"
                 :winNumbers="winNumbers"
             >
             </lotto-pragment>
@@ -30,6 +31,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 // import { mapGetters, mapMutations, mapActions } from 'vuex'
 // import VueNumericInput from 'vue-numeric-input'
 
@@ -61,7 +63,7 @@ export default Vue.extend({
     console.log('--- mounted')
   },
   updated() {
-    console.log('--- updated')
+    // console.log('--- updated')
   },
   /** */
   methods: {
@@ -82,7 +84,9 @@ export default Vue.extend({
     // },
   },
   computed: {
-
+    documentTitle() {
+      return document.title
+    }
   },
   watch: {
 

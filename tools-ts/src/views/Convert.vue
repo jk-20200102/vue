@@ -85,7 +85,7 @@ export default Vue.extend({
         `.trim(),
         converted: '',
         hasComma: true,
-        isInterface: false,
+        isInterface: true,
         isAlignment: true,
       },
       copySucceeded: false,
@@ -134,20 +134,18 @@ export default Vue.extend({
         if (keys) {
           let keyWidth = 0;
           if (isAlignment) {
-            const widths = keys.map((x) => x.length);
+            const widths = keys.map((x) => x.length + 1);
             keyWidth = widths.reduce((a, b) => (a > b ? a : b));
           }
           keys.map((key, idx) => {
             const value = parsed[key];
             console.log(idx, key, typeof value, value instanceof Array);
 
-            if (isInterface) {
-              buff[idx] = `  ${this.convertKey(key, keyWidth)}?: ${this.convertValue(value, isInterface)}`
+            const keyString = `${key}${isInterface ? '?' : ''}`;
+            console.log(keyString);
+            buff[idx] = `  ${this.convertKey(keyString, keyWidth)}: `
+                + `${this.convertValue(value, isInterface)}`
                 + `${this.form.hasComma ? ',' : ''}`;
-            } else {
-              buff[idx] = `  ${this.convertKey(key, keyWidth)}: ${this.convertValue(value, isInterface)}`
-                + `${this.form.hasComma ? ',' : ''}`;
-            }
             return key;
           });
           // for (let i = 0; i < keys.length; i = i + 1) {

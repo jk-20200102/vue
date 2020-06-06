@@ -51,6 +51,9 @@
                     추천 번호가 없습니다.
                   </p>
                   <p v-else>
+                    <span class="mr10">
+                      추천번호:
+                    </span>
                       <span v-for="(num, i) in winNumbers" v-bind:key="i"
                           style="transform: scale( .9 );"
                           class="ball_645 lrg ball1 mr-10"
@@ -406,3 +409,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.mr10 {
+  margin-right: 10px;
+}
+.mr20 {
+  margin-right: 20px;
+}
+</style>

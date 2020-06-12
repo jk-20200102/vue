@@ -122,11 +122,11 @@
               <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
                   v-on:change="doInit"> -->
               <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                  v-model.number="latelySize" :min="5" :max="23" :step="1">
+                  v-model.number="latelySize" :min="5" :max="13" :step="1">
               </vue-numeric-input><strong>회 기준</strong>
 
               <strong>선택된 번호</strong>
-              <span class="badge badge-success">{{ selectedNumbers.length }}</span>개
+              <span class="badge badge-success">{{ getSelectedNumbersSize }}</span>개
               <!-- <button type="button" class="btn btn-primary btn-sm mr-10"
                   v-on:click="getSelectedNumbers"
                   :disabled="isKeepNumber"
@@ -143,7 +143,7 @@
           </div>
           <div class="card-body">
             <div class="nums">
-                <p v-if="selectedNumbers.length === 0">
+                <p v-if="getSelectedNumbersSize === 0">
                   선택된 번호가 없습니다.
                 </p>
                 <p v-else>
@@ -173,9 +173,9 @@
                 <div class="card-header">
                   <strong v-if="i === 0">한 번도 안 나온 숫자</strong>
                   <strong v-else>{{ i }}회 나온 숫자</strong>
-                  <strong>{{ seed.length }}개 중<br>
+                  <strong>{{ getSize(seed) }}개 중<br>
                     <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                        v-model="weights[i]" :min="0" :max="seed.length" :step="1">
+                        v-model="weights[i]" :min="0" :max="getSize(seed)" :step="1">
                     </vue-numeric-input>개 선택
                   </strong>
                 </div>
@@ -347,6 +347,9 @@ export default {
     toggleConfig() {
       this.isShowConfig = !this.isShowConfig
     },
+    getSize(obj) {
+      return obj && obj.length ? obj.length : 0
+    },
   },
   computed: {
     ...mapGetters({
@@ -391,14 +394,21 @@ export default {
       // }
 
       var { weights } = this
-      for (var i = 0; i < recommands.length; i++) {
-        weights[i] = recommands[i]
+      try {
+        for (var i = 0; i < recommands.length; i++) {
+          weights[i] = recommands[i]
+        }
+      } catch (e) {
+        console.error('recommands', recommands, e)
       }
 
       return weights
     },
     documentTitle() {
       return document.title
+    },
+    getSelectedNumbersSize() {
+      return this.selectedNumbers.length ? this.selectedNumbers.length : 0
     }
   },
   watch: {

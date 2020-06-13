@@ -8,12 +8,12 @@
             <h2>{{ documentTitle }}</h2>
           </div>
           <div class="mt-3 mb-3">
-            최근 당첨번호를 분류하여 로또 번호를 추천해 드립니다.
+            &lt; {{ getWinNumbers.length }}회 당첨결과 >
           </div>
           <div class="nums">
               <div class="num win">
                   <p>
-                    {{ getWinNumbers.length }}회 당첨결과:
+                    <!-- {{ getWinNumbers.length }}회 당첨결과: -->
                       <span v-for="(num, i) in getWinNumbers[0]" v-bind:key="i"
                           style="transform: scale( .6 );"
                           class="ball_645 lrg ball1 mr-10"
@@ -45,15 +45,18 @@
           <h3>추천번호</h3>
         </div> -->
         <div class="card-body">
+          <div class="mt-3 mb-3">
+            &lt; 추천번호 >
+          </div>
           <div class="nums">
               <div class="num win">
                   <p v-if="winNumbers.length === 0">
                     추천 번호가 없습니다.
                   </p>
                   <p v-else>
-                    <span class="mr10">
+                    <!-- <span class="mr10">
                       추천번호:
-                    </span>
+                    </span> -->
                       <span v-for="(num, i) in winNumbers" v-bind:key="i"
                           style="transform: scale( .9 );"
                           class="ball_645 lrg ball1 mr-10"

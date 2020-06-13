@@ -126,8 +126,10 @@
                   v-on:change="doInit"> -->
               <vue-numeric-input
                 class="mr-10 ta-c fw-b"
-                style="width: 100px; text-align: right;"
+                style="width: 80px; text-align: right;"
                 v-model.number="latelySize"
+                controls-type="updown"
+                align="right"
                 :min="numericInputParams.min"
                 :max="numericInputParams.max"
                 :step="numericInputParams.step"
@@ -152,26 +154,26 @@
           </div>
           <div class="card-body">
             <div class="nums">
-                <p v-if="getSelectedNumbersSize === 0">
-                  선택된 번호가 없습니다.
-                </p>
-                <p v-else>
-                  <span v-for="(num, i) in selectedNumbers" v-bind:key="i">
-                    <span class="ball_645 lrg"
-                        style="transform: scale( .6 );"
-                        :class="{
-                          ball1: getBallType(num) == 1,
-                          ball2: getBallType(num) == 2,
-                          ball3: getBallType(num) == 3,
-                          ball4: getBallType(num) == 4,
-                          ball5: getBallType(num) == 5,
-                        }"
-                    >
-                      {{ num }}
-                    </span>
-
+              <p v-if="getSelectedNumbersSize === 0">
+                선택된 번호가 없습니다.
+              </p>
+              <p v-else>
+                <span v-for="(num, i) in selectedNumbers" v-bind:key="i">
+                  <span class="ball_645 lrg"
+                    style="transform: scale( .6 );"
+                    :class="{
+                      ball1: getBallType(num) == 1,
+                      ball2: getBallType(num) == 2,
+                      ball3: getBallType(num) == 3,
+                      ball4: getBallType(num) == 4,
+                      ball5: getBallType(num) == 5,
+                    }"
+                  >
+                    {{ num }}
                   </span>
-                </p>
+
+                </span>
+              </p>
             </div>
 
             <div class="row row-cols-1 row-cols-md-2 mt-3"
@@ -190,6 +192,8 @@
                         class="mr-10 ta-c fw-b"
                         style="width: 80px;"
                         v-model="weights[i]"
+                        controls-type="updown"
+                        align="right"
                         :min="0"
                         :max="getSize(seed)"
                         :step="1"
@@ -199,23 +203,23 @@
                   </div>
                   <div class="card-body">
                     <div class="nums">
-                        <div class="num win">
-                            <span v-for="(num, j) in seed" v-bind:key="j">
-                              <span class="ball_645 sml mr-10"
-                                style="transform: scale( 1.2 );"
-                                  :class="{
-                                    ball0: weights[i] === 0,
-                                    ball1: weights[i] > 0 && getBallType(num) == 1,
-                                    ball2: weights[i] > 0 && getBallType(num) == 2,
-                                    ball3: weights[i] > 0 && getBallType(num) == 3,
-                                    ball4: weights[i] > 0 && getBallType(num) == 4,
-                                    ball5: weights[i] > 0 && getBallType(num) == 5,
-                                  }"
-                              >
-                                {{ num }}
-                              </span>
-                            </span>
-                        </div>
+                      <div class="num win">
+                        <span v-for="(num, j) in seed" v-bind:key="j">
+                          <span class="ball_645 sml mr-10"
+                            style="transform: scale( 1.2 );"
+                            :class="{
+                              ball0: weights[i] === 0,
+                              ball1: weights[i] > 0 && getBallType(num) == 1,
+                              ball2: weights[i] > 0 && getBallType(num) == 2,
+                              ball3: weights[i] > 0 && getBallType(num) == 3,
+                              ball4: weights[i] > 0 && getBallType(num) == 4,
+                              ball5: weights[i] > 0 && getBallType(num) == 5,
+                            }"
+                          >
+                            {{ num }}
+                          </span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

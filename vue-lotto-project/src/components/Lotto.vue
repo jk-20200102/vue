@@ -123,7 +123,7 @@
                   v-on:change="doInit"> -->
               <vue-numeric-input
                 class="mr-10 ta-c fw-b"
-                style="width: 80px;"
+                style="width: 100px; text-align: right;"
                 v-model.number="latelySize"
                 :min="numericInputParams.min"
                 :max="numericInputParams.max"
@@ -174,40 +174,49 @@
             <div class="row row-cols-1 row-cols-md-2 mt-3"
                 v-for="(seed, i) in seeds" :key="i"
             >
-              <div class="col mb-1">
-              <div class="card text-black bg-info">
-                <div class="card-header">
-                  <strong v-if="i === 0">한 번도 안 나온 숫자</strong>
-                  <strong v-else>{{ i }}회 나온 숫자</strong>
-                  <strong>{{ getSize(seed) }}개 중<br>
-                    <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                        v-model="weights[i]" :min="0" :max="getSize(seed)" :step="1">
-                    </vue-numeric-input>개 선택
-                  </strong>
-                </div>
-                <div class="card-body">
-                  <div class="nums">
-                      <div class="num win">
-                          <span v-for="(num, j) in seed" v-bind:key="j">
-                            <span class="ball_645 sml mr-10"
-                              style="transform: scale( 1.2 );"
-                                :class="{
-                                  ball0: weights[i] === 0,
-                                  ball1: weights[i] > 0 && getBallType(num) == 1,
-                                  ball2: weights[i] > 0 && getBallType(num) == 2,
-                                  ball3: weights[i] > 0 && getBallType(num) == 3,
-                                  ball4: weights[i] > 0 && getBallType(num) == 4,
-                                  ball5: weights[i] > 0 && getBallType(num) == 5,
-                                }"
-                            >
-                              {{ num }}
+              <div
+                class="col mb-1"
+                v-if="getSize(seed) > 0"
+              >
+                <div class="card text-black bg-info">
+                  <div class="card-header">
+                    <strong v-if="i === 0">한 번도 안 나온 숫자</strong>
+                    <strong v-else>{{ i }}회 나온 숫자</strong>
+                    <strong>{{ getSize(seed) }}개 중<br>
+                      <vue-numeric-input
+                        class="mr-10 ta-c fw-b"
+                        style="width: 80px;"
+                        v-model="weights[i]"
+                        :min="0"
+                        :max="getSize(seed)"
+                        :step="1"
+                      >
+                      </vue-numeric-input>개 선택
+                    </strong>
+                  </div>
+                  <div class="card-body">
+                    <div class="nums">
+                        <div class="num win">
+                            <span v-for="(num, j) in seed" v-bind:key="j">
+                              <span class="ball_645 sml mr-10"
+                                style="transform: scale( 1.2 );"
+                                  :class="{
+                                    ball0: weights[i] === 0,
+                                    ball1: weights[i] > 0 && getBallType(num) == 1,
+                                    ball2: weights[i] > 0 && getBallType(num) == 2,
+                                    ball3: weights[i] > 0 && getBallType(num) == 3,
+                                    ball4: weights[i] > 0 && getBallType(num) == 4,
+                                    ball5: weights[i] > 0 && getBallType(num) == 5,
+                                  }"
+                              >
+                                {{ num }}
+                              </span>
                             </span>
-                          </span>
-                      </div>
+                        </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
         </div>
       </div>
@@ -259,7 +268,7 @@ export default {
   data() {
     return {
       isShowConfig: false,
-      latelySize: 10,
+      latelySize: 11,
       winNumbers: [],
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
@@ -276,7 +285,7 @@ export default {
       isKeepNumber: !true,
       numericInputParams: {
         min: 5,
-        max: 20,
+        max: 100,
         step: 1
       },
     };

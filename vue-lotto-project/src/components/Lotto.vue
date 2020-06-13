@@ -121,8 +121,14 @@
               <strong>{{ getWinSize }}회 부터 최근</strong>
               <!-- <input v-model.number="latelySize" style="width: 80px;" class="ta-c"
                   v-on:change="doInit"> -->
-              <vue-numeric-input class="mr-10 ta-c fw-b" style="width: 80px;"
-                  v-model.number="latelySize" :min="5" :max="13" :step="1">
+              <vue-numeric-input
+                class="mr-10 ta-c fw-b"
+                style="width: 80px;"
+                v-model.number="latelySize"
+                :min="numericInputParams.min"
+                :max="numericInputParams.max"
+                :step="numericInputParams.step"
+              >
               </vue-numeric-input><strong>회 기준</strong>
 
               <strong>선택된 번호</strong>
@@ -268,6 +274,11 @@ export default {
       ],
       selectedNumbers: [],
       isKeepNumber: !true,
+      numericInputParams: {
+        min: 5,
+        max: 20,
+        step: 1
+      },
     };
   },
   created() {
@@ -378,7 +389,7 @@ export default {
       console.log('sum', sum)
 
       var loop = minCount - sum
-      while (loop --) {
+      while (loop-- > 0) {
         var index = getRandomValue(0, seeds.length - 1)
         // console.log(recommands[index])
         recommands[index] += 1

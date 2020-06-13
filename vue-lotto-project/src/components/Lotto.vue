@@ -97,7 +97,7 @@
             <div>
                 <ol>
                   <li>{{ getWinSize - latelySize - 1 }}회부터
-                      {{ getWinSize }}회 당첨번호까지 노출수로 분류</li>
+                      {{ getWinSize }}회 당첨번호까지({{ latelySize }}회차) 노출수로 분류</li>
                   <li>분류된 그룹별로 선택수를 지정하여 랜덤하게 번호선택</li>
                   <li>선택된 번호에서 6개의 추천번호를 제공</li>
                 </ol>

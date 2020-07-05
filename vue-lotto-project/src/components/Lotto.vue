@@ -46,18 +46,27 @@
         </div> -->
         <div class="card-body">
           <div class="mt-3 mb-3">
+            게임수:
+            <vue-numeric-input
+              class="mr-10 ta-c fw-b"
+              style="width: 80px; text-align: right;"
+              v-model.number="gameCount"
+              controls-type="updown"
+              align="right"
+              :min="1"
+              :max="5"
+              :step="1"
+            />
             &lt; 추천번호 >
           </div>
           <div class="nums">
               <div class="num win">
-                  <p v-if="winNumbers.length === 0">
+                  <p v-if="recommWinNumbers.length === 0">
                     추천 번호가 없습니다.
                   </p>
-                  <p v-else>
-                    <!-- <span class="mr10">
-                      추천번호:
-                    </span> -->
-                      <span v-for="(num, i) in winNumbers" v-bind:key="i"
+                  <div v-else>
+                    <p v-for="(recommNumbers, i) in recommWinNumbers" v-bind:key="i">
+                      <span v-for="(num, j) in recommNumbers" v-bind:key="j"
                           style="transform: scale( .9 );"
                           class="ball_645 lrg ball1 mr-10"
                           :class="{
@@ -70,7 +79,8 @@
                       >
                         {{ num }}
                       </span>
-                  </p>
+                    </p>
+                  </div>
               </div>
               <!-- <section class="toutube">
                 <div class="youtube-cover"></div>
@@ -276,7 +286,8 @@ export default {
     return {
       isShowConfig: false,
       latelySize: 11,
-      winNumbers: [],
+      recommWinNumbers: [],
+      gameCount: 5,
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
       // weights: [6,1,4,3,0,],
@@ -342,7 +353,10 @@ export default {
         selectedNumbers = this.getSelectedNumbers()
       }
       // this.winNumbers = buff.slice(0)
-      this.winNumbers = getRandomSubarray(selectedNumbers, 6).sort(function (a, b) { return a - b })
+      this.recommWinNumbers = [...Array(this.gameCount).keys()].map(() => {
+        return getRandomSubarray(selectedNumbers, 6).sort(function (a, b) { return a - b })
+      })
+      console.log('recommWinNumbers', this.recommWinNumbers)
     },
     getSelectedNumbers() {
       console.log('--- getSelectedNumbers')

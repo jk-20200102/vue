@@ -287,7 +287,7 @@ export default {
       isShowConfig: false,
       latelySize: 11,
       recommWinNumbers: [],
-      gameCount: 5,
+      gameCount: 1,
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
       // weights: [6,1,4,3,0,],

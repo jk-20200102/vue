@@ -16,7 +16,7 @@
                     <!-- {{ getWinNumbers.length }}회 당첨결과: -->
                       <span v-for="(num, i) in getWinNumbers[0]" v-bind:key="i"
                           style="transform: scale( .6 );"
-                          class="ball_645 lrg ball1 mr-10"
+                          class="ball_645 lrg mr-10"
                           :class="{
                             ball1: getBallType(num) == 1,
                             ball2: getBallType(num) == 2,

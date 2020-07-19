@@ -8,13 +8,25 @@
             <h2>{{ documentTitle }}</h2>
           </div>
           <div class="mt-3 mb-3">
-            &lt; {{ getWinNumbers.length }}회 당첨결과 >
+            <button
+              :disabled="currentNo < 1"
+              @click="currentNo -= 1"
+            >
+              {{currentNo - 1}}회
+            </button>
+            &lt; {{ currentNo }}회 당첨결과 >
+            <button
+              :disabled="currentNo === lastNo"
+              @click="currentNo += 1"
+            >
+              {{currentNo + 1}}회
+            </button>
           </div>
           <div class="nums">
               <div class="num win">
                   <p>
                     <!-- {{ getWinNumbers.length }}회 당첨결과: -->
-                      <span v-for="(num, i) in getWinNumbers[0]" v-bind:key="i"
+                      <span v-for="(num, i) in getWinNumbers[lastNo - currentNo]" v-bind:key="i"
                           style="transform: scale( .6 );"
                           class="ball_645 lrg mr-10"
                           :class="{
@@ -284,6 +296,8 @@ export default {
   },
   data() {
     return {
+      currentNo: 0,
+      lastNo: Number.MAX_VALUE,
       isShowConfig: false,
       latelySize: 11,
       recommWinNumbers: [],
@@ -317,6 +331,8 @@ export default {
       this.latelySize = Number(size)
       console.log('latelySize', this.latelySize)
     }
+    this.lastNo = this.getWinNumbers.length
+    this.currentNo = this.lastNo
   },
   mounted() {
     console.log('--- mounted');

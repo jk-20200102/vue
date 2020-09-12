@@ -301,7 +301,7 @@ export default {
       isShowConfig: false,
       latelySize: 11,
       recommWinNumbers: [],
-      gameCount: 1,
+      gameCount: 5, // 5게임기본으로 설정
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
       // weights: [6,1,4,3,0,],

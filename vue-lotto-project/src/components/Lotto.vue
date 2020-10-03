@@ -66,7 +66,7 @@
               controls-type="updown"
               align="right"
               :min="1"
-              :max="5"
+              :max="MAX_GAME_COUNT"
               :step="1"
             />
             &lt; 추천번호 >
@@ -296,12 +296,13 @@ export default {
   },
   data() {
     return {
+      MAX_GAME_COUNT: 6,
       currentNo: 0,
       lastNo: Number.MAX_VALUE,
       isShowConfig: false,
       latelySize: 11,
       recommWinNumbers: [],
-      gameCount: 5, // 5게임기본으로 설정
+      gameCount: 6, // 기본게임수 설정
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
       // weights: [6,1,4,3,0,],

@@ -77,7 +77,7 @@
                     추천 번호가 없습니다.
                   </p>
                   <div v-else>
-                    <p v-for="(recommNumbers, i) in recommWinNumbers" v-bind:key="i">
+                    <p v-for="(recommNumbers, i) in sorted(recommWinNumbers)" v-bind:key="i">
                       <span v-for="(num, j) in recommNumbers" v-bind:key="j"
                           style="transform: scale( .9 );"
                           class="ball_645 lrg ball1 mr-10"
@@ -302,7 +302,7 @@ export default {
       isShowConfig: false,
       latelySize: 11,
       recommWinNumbers: [],
-      gameCount: 6, // 기본게임수 설정
+      gameCount: 5, // 기본게임수 설정
       // weights: [4,0,1,2,0,],
       // weights: [2,1,3,1,0,],
       // weights: [6,1,4,3,0,],
@@ -408,6 +408,18 @@ export default {
     getSize(obj) {
       return obj && obj.length ? obj.length : 0
     },
+    sorted(numbers) {
+      console.log('numbers', numbers)
+      const csvs = numbers
+        .map(x => x.map(y => `0${y}`.substr(-2, 2)))
+        .map(x => x.join(','))
+      csvs.sort()
+      console.log('sored csvs', csvs)
+      const numbs = csvs
+        .map(x => x.split(','))
+        .map(x => x.map(y => Number(y)))
+      return numbs
+    }
   },
   computed: {
     ...mapGetters({

@@ -40,3 +40,9 @@ npm install vue-numeric-input --save
 npm install vuex --save
 
 ```
+
+## version patch
+
+```
+npm version patch
+```

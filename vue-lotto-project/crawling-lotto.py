@@ -9,11 +9,12 @@ with urllib.request.urlopen(url) as response:
     soup = BeautifulSoup(html, 'html.parser')
 
     round = soup.find('div', {'class': 'win_result'}).find('strong').text
+    desc = soup.find('div', {'class': 'win_result'}).find('p', {'class': 'desc'}).text
     # print(round)
     all_spans = soup.find_all('span', {'class': 'ball_645'})
     # print(all_spans)
     numbers = []
     for span in all_spans:
         numbers.append(int(span.text))
-print(f'/* {round} */ {numbers}')
+print(f'/* {round} {desc} */ {numbers}')
 print('End.')
